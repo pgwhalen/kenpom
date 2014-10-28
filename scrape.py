@@ -1,8 +1,17 @@
 from bs4 import BeautifulSoup
 import urllib2
+import pg_config
+import psycopg2
 
 page = urllib2.urlopen('http://kenpom.com')
 soup = BeautifulSoup(page)
+
+
+try:
+    conn = psycopg2.connect(pg_config.conn_string)
+except:
+    print "can't connect to db"
+
 
 # get each row of the big table
 trs = soup.find_all('tr')
@@ -42,4 +51,4 @@ for tr in trs:
         ncsos_pyth = float(tds[19].string)
         ncsos_pyth_rank = int(tds[20].string)
 
-        print rank, school, wins, losses
+        #print rank, school, wins, losses
